@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <!-- Enlace a Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <!-- El atributo defer es para que el script se ejecute luego de que está cargada la página -->
+    <script src="../controllers/7-CRUD-Crear.js" defer></script>
+</head>
+<body class="container mt-5">
+
+    <h2 class="text-center mb-4">Gestión de Usuarios</h2>
+
+    <div class="card p-4">
+        <h4>Registrar Nuevo Usuario</h4>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" id="nombre" class="form-control" placeholder="Ingrese su nombre">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" class="form-control" placeholder="Ingrese su email">
+        </div>
+        <button id="crearUsuario" class="btn btn-primary">Crear Usuario</button>
+    </div>
+
+    <h3 class="mt-4">Usuarios Registrados</h3>
+    <button id="listarUsuarios" class="btn btn-success mb-3">Actualizar Lista</button>
+    
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="tablaUsuarios"></tbody>
+    </table>
+
+</body>
+</html>

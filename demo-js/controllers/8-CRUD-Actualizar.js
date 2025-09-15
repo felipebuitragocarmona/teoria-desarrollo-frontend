@@ -8,6 +8,18 @@ document.addEventListener("DOMContentLoaded", function () {
     let userIdInput = document.getElementById("userId");
     let formTitle = document.getElementById("formTitle");
 
+    // Eventos de botones
+    btnCrear.addEventListener("click", crearUsuario);
+    btnActualizar.addEventListener("click", actualizarUsuario);
+    btnListar.addEventListener("click", listarUsuarios);
+
+    // Hacer funciones accesibles globalmente
+    window.cargarUsuario = cargarUsuario;
+    window.eliminarUsuario = eliminarUsuario;
+
+    // Listar usuarios al cargar la página
+    listarUsuarios();
+
     // Función para listar los usuarios desde la API
     function listarUsuarios() {
         fetch("https://jsonplaceholder.typicode.com/users")
@@ -15,31 +27,17 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 tablaUsuarios.innerHTML = ""; // Limpiar tabla antes de cargar nuevos datos
                 data.forEach(usuario => {
-                    let fila = document.createElement("tr");
-
-                    fila.innerHTML = `
-                        <td>${usuario.id}</td>
-                        <td>${usuario.name}</td>
-                        <td>${usuario.email}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm actualizar-btn">Actualizar</button>
-                            <button class="btn btn-danger btn-sm eliminar-btn">Eliminar</button>
-                        </td>
+                    tablaUsuarios.innerHTML += `
+                        <tr id="usuario-${usuario.id}">
+                            <td>${usuario.id}</td>
+                            <td>${usuario.name}</td>
+                            <td>${usuario.email}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="cargarUsuario(${usuario.id}, '${usuario.name}', '${usuario.email}')">Actualizar</button>
+                                <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(${usuario.id})">Eliminar</button>
+                            </td>
+                        </tr>
                     `;
-
-                    // Agregar eventos a los botones
-                    let actualizarBtn = fila.querySelector(".actualizar-btn");
-                    let eliminarBtn = fila.querySelector(".eliminar-btn");
-
-                    actualizarBtn.addEventListener("click", function () {
-                        cargarUsuario(usuario.id, usuario.name, usuario.email);
-                    });
-
-                    eliminarBtn.addEventListener("click", function () {
-                        eliminarUsuario(usuario.id);
-                    });
-
-                    tablaUsuarios.appendChild(fila);
                 });
             })
             .catch(error => console.error("Error al obtener usuarios:", error));
@@ -73,13 +71,13 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(usuario)
         })
-        .then(response => response.json())
-        .then(() => {
-            alert("Usuario creado con éxito.");
-            listarUsuarios();
-            limpiarFormulario();
-        })
-        .catch(error => console.error("Error al crear usuario:", error));
+            .then(response => response.json())
+            .then(() => {
+                alert("Usuario creado con éxito.");
+                listarUsuarios();
+                limpiarFormulario();
+            })
+            .catch(error => console.error("Error al crear usuario:", error));
     }
 
     // Función para eliminar un usuario
@@ -87,11 +85,11 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
             method: "DELETE"
         })
-        .then(() => {
-            alert("Usuario eliminado con éxito.");
-            listarUsuarios();
-        })
-        .catch(error => console.error("Error al eliminar usuario:", error));
+            .then(() => {
+                document.getElementById(`usuario-${id}`).remove();
+                alert("Usuario eliminado con éxito.");
+            })
+            .catch(error => console.error("Error al eliminar usuario:", error));
     }
 
     // Función para actualizar un usuario
@@ -112,13 +110,13 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(usuario)
         })
-        .then(response => response.json())
-        .then(() => {
-            alert("Usuario actualizado con éxito.");
-            listarUsuarios();
-            limpiarFormulario();
-        })
-        .catch(error => console.error("Error al actualizar usuario:", error));
+            .then(response => response.json())
+            .then(() => {
+                alert("Usuario actualizado con éxito.");
+                listarUsuarios();
+                limpiarFormulario();
+            })
+            .catch(error => console.error("Error al actualizar usuario:", error));
     }
 
     // Función para limpiar el formulario
@@ -132,11 +130,5 @@ document.addEventListener("DOMContentLoaded", function () {
         btnActualizar.classList.add("d-none");
     }
 
-    // Eventos de botones
-    btnCrear.addEventListener("click", crearUsuario);
-    btnActualizar.addEventListener("click", actualizarUsuario);
-    btnListar.addEventListener("click", listarUsuarios);
 
-    // Listar usuarios al cargar la página
-    listarUsuarios();
 });

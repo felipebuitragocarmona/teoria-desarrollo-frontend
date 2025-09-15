@@ -1,6 +1,6 @@
 // Clase principal para el usuario
 class User {
-    constructor(id, name, username, email, address, phone, website, company) {
+    constructor(id, name, username, email, phone, website) {
         this.id = id;
         this.name = name;
         this.username = username;

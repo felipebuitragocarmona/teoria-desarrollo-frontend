@@ -3,6 +3,14 @@ document.addEventListener("DOMContentLoaded", function () {
     let btnListar = document.getElementById("listarUsuarios");
     let tablaUsuarios = document.getElementById("tablaUsuarios");
 
+    // Eventos de botones
+    btnCrear.addEventListener("click", crearUsuario);
+    btnListar.addEventListener("click", listarUsuarios);
+
+    // Listar usuarios al cargar la página
+    listarUsuarios();
+
+
     // Función para listar los usuarios desde la API
     function listarUsuarios() {
         fetch("https://jsonplaceholder.typicode.com/users")
@@ -40,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(() => {
+                //Aquí se programa lo que pasa cuando el backend responde
                 alert("Usuario creado con éxito.");
                 listarUsuarios(); // Se vuelve a listar los usuarios desde la API
                 document.getElementById("nombre").value = "";
@@ -48,10 +57,5 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Error al crear usuario:", error));
     }
 
-    // Eventos de botones
-    btnCrear.addEventListener("click", crearUsuario);
-    btnListar.addEventListener("click", listarUsuarios);
 
-    // Listar usuarios al cargar la página
-    listarUsuarios();
 });

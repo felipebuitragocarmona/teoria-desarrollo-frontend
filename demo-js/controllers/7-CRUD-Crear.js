@@ -46,15 +46,14 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(usuario)
         })
-            .then(response => response.json())
-            .then(() => {
-                //Aquí se programa lo que pasa cuando el backend responde
-                alert("Usuario creado con éxito.");
-                listarUsuarios(); // Se vuelve a listar los usuarios desde la API
-                document.getElementById("nombre").value = "";
-                document.getElementById("email").value = "";
-            })
-            .catch(error => console.error("Error al crear usuario:", error));
+        .then(() => {
+            //Aquí se programa lo que pasa cuando el backend responde
+            alert("Usuario creado con éxito.");
+            listarUsuarios(); // Se vuelve a listar los usuarios desde la API
+            document.getElementById("nombre").value = "";
+            document.getElementById("email").value = "";
+        })
+        .catch(error => console.error("Error al crear usuario:", error));
     }
 
 
